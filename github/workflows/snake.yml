@@ -1,0 +1,29 @@
+name: Update Contribution Snake
+
+on:
+  schedule:
+
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - name: Generate contribution snake SVG
+        uses: Platane/snk@main
+        with:
+          username: taskinul
+          output: output/github-contribution-grid-snake.svg
+
+      - name: Commit and push updated snake
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          mkdir -p output
+          git add output/github-contribution-grid-snake.svg
+          git commit -m "chore: update contribution snake" || echo "No changes to commit"
+          git push
